@@ -92,3 +92,34 @@ const canvas = document.getElementById('JogoCanvas');
           this.alienDir *= -1;
           this.aliens.forEach(alien => alien.y += 10);
         }
+
+        // Colisões
+        this.projetilss.forEach((projetils, bIndex) => {
+          this.aliens.forEach((alien, aIndex) => {
+            if (projetils.x < alien.x + alien.width &&
+                projetils.x + projetils.width > alien.x &&
+                projetils.y < alien.y + alien.height &&
+                projetils.y + projetils.height > alien.y) {
+              this.aliens.splice(aIndex, 1);
+              this.projetilss.splice(bIndex, 1);
+            }
+          });
+        });
+      }
+
+      desenhar() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        this.nave.desenhar();
+        this.projetilss.forEach(projetils => projetils.desenhar());
+        this.aliens.forEach(alien => alien.desenhar());
+      }
+
+      loop() {
+        this.atualizar();
+        this.desenhar();
+        requestAnimationFrame(() => this.loop());
+      }
+    }
+
+    const game = new Game();
+    game.loop();
