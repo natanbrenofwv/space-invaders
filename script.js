@@ -79,4 +79,16 @@ const canvas = document.getElementById('JogoCanvas');
           if (projetils.y < 0) this.projetilss.splice(i, 1);
         });
 
-        
+        // Movimento dos alienígenas
+        let hitEdge = false;
+        this.aliens.forEach(alien => {
+          alien.x += this.alienDir * 1;
+          if (alien.x <= 0 || alien.x + alien.width >= canvas.width) {
+            hitEdge = true;
+          }
+        });
+
+        if (hitEdge) {
+          this.alienDir *= -1;
+          this.aliens.forEach(alien => alien.y += 10);
+        }
